@@ -42,25 +42,28 @@ def pinjie(save_path, dir2,n,dir3):
         os.mkdir(save_path)
     filenames = os.listdir(dir3)
     for filename in filenames:
-        if not os.path.exists(save_path + filename):
-            a = int(filename.find('_'))
-            e = int(filename.find('.'))
-            x = int (filename[0:a])
-            y = int (filename[a+1:e])
-            x = x*n
-            y = y*n
-            imrow = []
-            for a in range(0,n):
-                imcolumn = []
-                for e in range(0,n):
-                    print(dir2 + '/' +str(x+a) + '_'+ str(y+e)+ '.png')
-                    im = cv2.imread(dir2 +'/'+ str(x+a) + '_'+ str(y+e)+ '.png')
+        try:
+            if not os.path.exists(save_path + filename):
+                a = int(filename.find('_'))
+                e = int(filename.find('.'))
+                x = int(filename[0:a])
+                y = int(filename[a+1:e])
+                x = x*n
+                y = y*n
+                imrow = []
+                for a in range(0,n):
+                    imcolumn = []
+                    for e in range(0,n):
+                        print(dir2 + '/' +str(x+a) + '_'+ str(y+e)+ '.png')
+                        im = cv2.imread(dir2 +'/'+ str(x+a) + '_'+ str(y+e)+ '.png')
                     #print (dir2 + str(x+a) + '_'+ str(y+b)+ '.png', im.shape)
-                    imcolumn.append(im)
-                imstripe = np.vstack(imcolumn)
-                imrow.append(imstripe)
-            imwhole = np.hstack(imrow)
-            cv2.imwrite(save_path + filename, imwhole)#高分辨率地图合成对应的低分辨率地图
+                        imcolumn.append(im)
+                    imstripe = np.vstack(imcolumn)
+                    imrow.append(imstripe)
+                imwhole = np.hstack(imrow)
+                cv2.imwrite(save_path + filename, imwhole)#高分辨率地图合成对应的低分辨率地图
+        except Exception:
+            continue
 
 if __name__ == "__main__":
     path = input('pls input save path')
